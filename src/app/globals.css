@@ -2,32 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+#home::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+#testbox {
+  background: #B91C1C;
+  background-size: 200% 100%;
+  background-image: linear-gradient(to right, #B91C1C 50%, #006400 50%);
+  transition: background-position 1s;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+#testbox:hover {
+  background-position: 100% 0;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.text {
+  background: black;
+  background: linear-gradient(to top, black, rgb(255, 49, 49));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position .5s;
+  background-size: 100% 200%;
+  background-position: 0 100%;
+}
+
+.text:hover {
+  background-position: 0;
 }
