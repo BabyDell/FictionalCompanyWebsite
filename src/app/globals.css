@@ -2,37 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
-#home::before {
+@import url("https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
+
+#home::before,
+.menuImage::before {
   content: "";
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
 }
 
-#testbox {
-  background: #B91C1C;
+#home > *,
+.menuImage > * {
+  position: relative;
+  z-index: 2;
+}
+
+#basetestbox {
   background-size: 200% 100%;
-  background-image: linear-gradient(to right, #B91C1C 50%, #006400 50%);
   transition: background-position 1s;
 }
 
-#testbox:hover {
+#basetestbox:hover {
   background-position: 100% 0;
 }
 
+.testbox1 {
+  background: #b91c1c;
+  background-image: linear-gradient(to right, #006400 50%, #b91c1c 50%);
+}
+
+.testbox2 {
+  background: #006400;
+  background-image: linear-gradient(to right, #b91c1c 50%, #006400 50%);
+}
+
 .text {
-  background: black;
-  background: linear-gradient(to top, black, rgb(255, 49, 49));
+  background: linear-gradient(to top, white, rgb(255, 49, 49));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  transition: background-position .5s;
-  background-size: 100% 200%;
+  transition: background-position 0.5s;
+  background-size: 100% 300%;
   background-position: 0 100%;
 }
 
 .text:hover {
-  background-position: 0;
+  background-position: 0 0;
+}
+
+.dropdown-content {
+  visibility: hidden;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.dropdown-content a {
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+.bg-transition {
+  background-color: #b40404;
+  color: white;
+  transition: background-color 0.5s, color 0.5s;
+}
+
+.bg-transition:hover {
+  background-color: #ffffff;
+  color: black;
+}
+
+.text-shadow {
+  text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff,
+    0 0 40px #ffffff;
 }
