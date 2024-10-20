@@ -36,4 +36,7 @@ const popUpNav: React.FC<{ style?: React.CSSProperties }> = ({ style }) => {
   );
 };
 
+
+popUpNav.displayName = 'popUpNav';
+
 export default popUpNav;

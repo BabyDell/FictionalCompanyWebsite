@@ -53,7 +53,7 @@ export default function ourStory() {
             delicious Italian food to customers in his New York restaurant back
             in the late 1890&apos;s. After the turn of the century, the family
             moved to Chicago and opened yet another fine ltalian restaurant
-            featuring “Italian Style Pizza”, a tasty appetizer consisting of
+            featuring &quot;Italian Style Pizza&quot;, a tasty appetizer consisting of
             homemade tomato sauce served on a crispy piece of bread. In 1927,
             following in his father&apos;s footsteps, Sam opened his own Italian
             restaurant in downtown Chicago.

@@ -32,4 +32,6 @@ const Card: React.FC<CardProps> = ({ name, address, phone }) => {
   );
 };
 
+Card.displayName = 'Card';
+
 export default Card;
