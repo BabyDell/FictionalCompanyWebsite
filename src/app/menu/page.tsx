@@ -1,92 +1,40 @@
-"use client";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import menuContents from "./menuContents";
-import Image from "next/image";
+import Link from "next/link";
 
-const Menu = () => {
-  const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
+const cards = [
+  { id: 1, title: "Appetizers", imageUrl: "/img/menuPics/rosatisAppetizers.jpg", link: "/menu/appetizers" },
+  { id: 2, title: "Wings", imageUrl: "/img/menuPics/rosatisWings.jpg", link: "/menu/wings" },
+  { id: 3, title: "Salads", imageUrl: "/img/menuPics/rosatiSalads.jpg", link: "/menu/salads" },
+  { id: 4, title: "Pizza", imageUrl: "/img/menuPics/rosatisPizza.jpg", link: "/menu/pizza" },
+  { id: 5, title: "Pastas", imageUrl: "/img/menuPics/rosatiPasta.jpg", link: "/menu/pastas" },
+  { id: 6, title: "Sandwiches", imageUrl: "/img/menuPics/rosatiSandwiches.jpg", link: "/menu/sandwiches" },
+];
 
-  //problems with routing router is not mounted**
-
-  useEffect(() => {
-    if (router.asPath !== router.route) {
-      const pageFromUrl = Number(router.query.page);
-      if (pageFromUrl) {
-        setCurrentPage(pageFromUrl);
-      }
-    }
-  }, [router]);
-
-  const pages = [
-    {
-      name: "Wings",
-      icon: "/img/chickenWingIcon.png",
-      content: menuContents.Wings,
-    },
-    {
-      name: "Appetizers",
-      icon: "/img/friesIcon.png",
-      content: menuContents.Appetizers,
-    },
-    {
-      name: "Pizza",
-      icon: "/img/pizzaIcon.png",
-      content: menuContents.Pizza,
-    },
-    {
-      name: "Salads",
-      icon: "/img/saladIcon.png",
-      content: menuContents.Salads,
-    },
-    {
-      name: "Pastas",
-      icon: "/img/pastaIcon.png",
-      content: menuContents.Pastas,
-    },
-    {
-      name: "Sandwiches",
-      icon: "/img/sandwichIcon.png",
-      content: menuContents.Sandwiches,
-    },
-  ];
-
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-    router.push({ query: { page: pageNumber } }); // update the URL
-  };
-
+const CardGrid = () => {
   return (
-    <div className=" h-dvh bg-[url(https://cdn.pixabay.com/photo/2016/03/15/02/42/floor-1256804_1280.jpg)] bg-cover">
-      <div className="w-full xl:w-[1150px] mx-auto h-full flex bg-white">
-        <div className="w-52 md:w-96 h-full bg-[url(/img/rosatiWhiteWood.jpg)] ">
-          {pages.map((page, index) => (
-            <button
-              className="w-full py-4 border-b-2 border-black  font-Playfair-Display"
-              key={index}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              <div className="w-full h-full flex items-center justify-center ">
-                <Image
-                  src={page.icon}
-                  width={19}
-                  height={19}
-                  alt="logo"
-                  className="mr-1"
-                />
-
-                <div className="font-serif text-xl text-orange-900 font-bold">
-                  {page.name}
-                </div>
-              </div>
-            </button>
-          ))}
-        </div>
-        <div className="w-full">{pages[currentPage - 1].content}</div>
-      </div>
+    <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 px-10 mt-5">
+      {cards.map((card) => (  
+        <Link href={card.link} key={card.id} className="block bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+          <img src={card.imageUrl} alt={card.title} className="w-full h-48 object-cover" />
+          <div className="p-4">
+            <h3 className="text-lg font-semibold">{card.title}</h3>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 };
 
-export default Menu;
+export default function Menu() {
+  return (
+    <div className="w-full bg-[url(https://cdn.pixabay.com/photo/2016/03/15/02/42/floor-1256804_1280.jpg)] h-dvh m-auto bg-cover">
+      <div className="w-full xl:w-[1150px] bg-amber-50 h-dvh mx-auto">
+        <div className="text-center pt-5 text-3xl font-serif text-red-900">
+          Our Menu
+        </div>
+        <div className="">
+          <CardGrid />
+        </div>
+      </div>
+    </div>
+  );
+}

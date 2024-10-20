@@ -4,9 +4,10 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap");
 
+/* Adding a dark overlay to the home and menuImage elements */
 #home::before,
 .menuImage::before {
   content: "";
@@ -24,6 +25,7 @@
   z-index: 2;
 }
 
+/* Adding a background transition to the basetestbox element by making it double the size horozontally then translating it to the other half on hover*/
 #basetestbox {
   background-size: 200% 100%;
   transition: background-position 1s;
@@ -43,6 +45,7 @@
   background-image: linear-gradient(to right, #b91c1c 50%, #006400 50%);
 }
 
+/* Adding a linear gradient background to the text class and making the text transparent then changing the background position to a different position to imitatate a slow color change when hovered*/
 .text {
   background: linear-gradient(to top, white, rgb(255, 49, 49));
   -webkit-background-clip: text;
@@ -56,6 +59,7 @@
   background-position: 0 0;
 }
 
+/* Hiding the dropdown content by default */
 .dropdown-content {
   visibility: hidden;
   position: absolute;
@@ -68,11 +72,13 @@
   display: block;
 }
 
+/* Showing the dropdown content on hover */
 .dropdown:hover .dropdown-content {
   visibility: visible;
   opacity: 1;
 }
 
+/* Changing the background color and text color of the bg-transition class on hover */
 .bg-transition {
   background-color: #b40404;
   color: white;
@@ -83,6 +89,7 @@
   background-color: #ffffff;
   color: black;
 }
+
 
 .text-shadow {
   text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff,
