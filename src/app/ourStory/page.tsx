@@ -35,7 +35,7 @@ export default function ourStory() {
           />
         </div>
         <div className="text-center mt-10 text-4xl text-emerald-950 font-bold">
-          "Every meal is a chance to impress"
+          &quot;Every meal is a chance to impress&quot;
         </div>
         <div className="text-center mt-3 text-lg font-semibold">
           - Sam Gutierrez
@@ -53,10 +53,10 @@ export default function ourStory() {
             delicious Italian food to customers in his New York restaurant back
             in the late 1890&apos;s. After the turn of the century, the family
             moved to Chicago and opened yet another fine ltalian restaurant
-            featuring &quot;Italian Style Pizza&quot;, a tasty appetizer consisting of
-            homemade tomato sauce served on a crispy piece of bread. In 1927,
-            following in his father&apos;s footsteps, Sam opened his own Italian
-            restaurant in downtown Chicago.
+            featuring &quot;Italian Style Pizza&quot;, a tasty appetizer
+            consisting of homemade tomato sauce served on a crispy piece of
+            bread. In 1927, following in his father&apos;s footsteps, Sam opened
+            his own Italian restaurant in downtown Chicago.
           </span>
           <br />
           <br />
