@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const cards = [
   { id: 1, title: "Appetizers", imageUrl: "/img/menuPics/rosatisAppetizers.jpg", link: "/menu/appetizers" },
@@ -14,7 +15,7 @@ const CardGrid = () => {
     <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 px-10 mt-5">
       {cards.map((card) => (  
         <Link href={card.link} key={card.id} className="block bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
-          <img src={card.imageUrl} alt={card.title} className="w-full h-48 object-cover" />
+          <Image src={card.imageUrl} alt={card.title} className="w-full h-48 object-cover" />
           <div className="p-4">
             <h3 className="text-lg font-semibold">{card.title}</h3>
           </div>
