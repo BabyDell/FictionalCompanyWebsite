@@ -68,8 +68,8 @@ const ListItem: React.FC<ListItemProps> = ({ name, content }) => {
 
 export default function Page() {
   return (
-    <div className="h-auto min-h-dvh bg-[url('/img/rosatiBG.jpg')] bg-cover pb-16">
-      <div className="w-full xl:w-[1150px] mx-auto grid bg-amber-50 pb-10">
+    <div className="h-auto min-h-dvh bg-[url('/img/rosatiBG.jpg')] bg-cover pb-16 ">
+      <div className="w-full xl:w-[1150px] mx-auto grid bg-amber-50 pb-10 rounded-lg ">
         <div className="flex items-center justify-center w-full mt-10">
           <ul className="m-auto text-center text-3xl font-serif space-y-5">
             {locations.map((location, index) => (

@@ -241,7 +241,7 @@ export default function OrderOnline() {
         <h1 className="text-4xl font-bold mb-8 text-center pt-5 font-serif text-red-900">
           Order Online
         </h1>
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8 mx-10">
           <div className="lg:w-3/4">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid grid-cols-3 lg:grid-cols-6 gap-2">
