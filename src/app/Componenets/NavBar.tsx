@@ -1,218 +1,221 @@
 "use client";
-import PopUpNav from "./PopUpNav";
-import React, { useState, useEffect } from "react";
-import { useTransition, animated } from "react-spring";
+
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { FaShoppingCart } from "react-icons/fa";
 import Image from "next/image";
+import { useTransition, animated } from "react-spring";
+import { FaShoppingCart, FaBars, FaChevronDown } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
+
+const menuItems = [
+  {
+    name: "Menu",
+    href: "/menu",
+    dropdownItems: [
+      { name: "Appetizers", href: "/menu?category=appetizers" },
+      { name: "Wings", href: "/menu?category=wings" },
+      { name: "Salads", href: "/menu?category=salads" },
+      { name: "Pizza", href: "/menu?category=pizza" },
+      { name: "Pastas", href: "/menu?category=pastas" },
+      { name: "Sandwiches", href: "/menu?category=sandwiches" },
+    ],
+  },
+  { name: "Our Story", href: "/ourStory" },
+  { name: "Locations", href: "/locations" },
+  { name: "Contact Us", href: "/contactUs" },
+];
+
+interface MobileMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
+  const router = useRouter();
+  const transition = useTransition(isOpen, {
+    from: { opacity: 0, transform: "translateX(100%)" },
+    enter: { opacity: 1, transform: "translateX(0%)" },
+    leave: { opacity: 0, transform: "translateX(100%)" },
+  });
+
+  const handleMenuItemClick = (href: string) => {
+    router.push(href);
+    onClose();
+  };
+
+  return transition(
+    (style, item) =>
+      item && (
+        <animated.div
+          style={style}
+          className="fixed inset-y-0 right-0 w-full shadow-lg z-50 p-4 bg-white"
+        >
+          <Button
+            variant="ghost"
+            className="absolute top-14 right-5"
+            onClick={onClose}
+          >
+            &times;
+          </Button>
+          <nav className="mt-24 flex justify-center text-center">
+            <ul className="space-y-4">
+              {menuItems.map((item) => (
+                <li key={item.name}>
+                  {item.dropdownItems ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="text-lg font-semibold">
+                        {item.name}
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        {item.dropdownItems.map((subItem) => (
+                          <DropdownMenuItem
+                            key={subItem.name}
+                            onClick={() => handleMenuItemClick(subItem.href)}
+                          >
+                            {subItem.name}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <Button
+                      variant="ghost"
+                      className="text-lg font-semibold"
+                      onClick={() => handleMenuItemClick(item.href)}
+                    >
+                      {item.name}
+                    </Button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </animated.div>
+      )
+  );
+};
 
 export default function NavBar() {
-  //Makes the navbar close when the screen is resized to a certain width
-  const useWidth = () => {
-    const [width, setWidth] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [openStates, setOpenStates] = useState<boolean[]>(
+    new Array(menuItems.length).fill(false)
+  );
+  const router = useRouter();
+
+  const handleMouseEnter = useCallback((index: number) => {
+    setOpenStates((prev) =>
+      prev.map((state, i) => (i === index ? true : state))
+    );
+  }, []);
+
+  const handleMouseLeave = useCallback((index: number) => {
+    setOpenStates((prev) =>
+      prev.map((state, i) => (i === index ? false : state))
+    );
+  }, []);
+
+  useEffect(() => {
     const handleResize = () => {
-      setWidth(window.innerWidth);
+      setIsMobile(window.innerWidth <= 768);
       if (window.innerWidth > 768) {
         setIsOpen(false);
       }
     };
-    useEffect(() => {
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
-    return width;
-  };
-  useWidth();
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Transition for opening and closing the navbar
-  const transition = useTransition(isOpen, {
-    from: { x: 100, opacity: 0 },
-    enter: { x: 0, opacity: 1 },
-    leave: { x: 100, opacity: 0 },
-  });
-
-  const [popupStyle, setPopupStyle] = useState({});
-
-  // Function to toggle the menu
-  const toggleMenu = (event: {
-    preventDefault: () => void;
-    clientY: number;
-  }) => {
-    event.preventDefault();
-    setIsOpen((prevState) => !prevState);
-    setPopupStyle({
-      position: "fixed",
-      top: `${event.clientY + 79}px`,
-    });
-  };
-
-  // Animated version of the PopUpNav component
-  const AnimatedDialog = animated(PopUpNav);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <>
-      {isOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 10,
-          }}
-          onClick={toggleMenu}
-        />
-      )}
-      {transition(
-        (style, item) =>
-          item && (
-            <AnimatedDialog style={{ ...style, ...popupStyle, zIndex: 20 }} />
-          )
-      )}
-
-      <div className="z-10 relative">
-        <nav className="bg-white border-gray-200 w-full sticky md:py-5 lg:py-0 font-lora bg-[url(https://images.pexels.com/photos/172276/pexels-photo-172276.jpeg?cs=srgb&dl=pexels-fwstudio-33348-172276.jpg&fm=jpg)] bg-no-repeat bg-center bg-cover">
-          <div className="max-w-screen flex flex-wrap grid grid-cols-2 md:grid-cols-none md:grid-flow-col items-center justify-between lg:justify-stretch w-full">
-            <div className="">
-              <a
-                href="/"
-                className="flex items-center space-x-3 rtl:space-x-reverse mr-auto md:mr-0 ml-5 md:ml-0 md:float-right"
-              >
-                <Image
-                  src="/img/InfernoBlazePizzaLogo.png"
-                  width={150}
-                  height={150}
-                  alt="companylogo"
-                />
-              </a>
-            </div>
-            <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ml-auto mr-4 md:mr-0">
-              <button
-                data-collapse-toggle="navbar-cta"
-                type="button"
-                className=" inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                aria-controls="navbar-cta"
-                aria-expanded="false"
-                onClick={toggleMenu}
-              >
-                <span className="sr-only">Open main menu</span>
-                <svg
-                  className="w-5 h-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 17 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 1h15M1 7h15M1 13h15"
-                  />
-                </svg>
-              </button>
-              <div id="edge" className="hidden lg:flex h-full w-full ">
-                <button
-                  id="basetestbox"
-                  className="testbox2 text-white font-bold py-16 px-3 h-full flex lg:ml-auto"
-                >
-                  <FaShoppingCart size={20} className="mr-2" />
-                  Order Online
-                </button>
-              </div>
-            </div>
-            <div>
+    <header className="sticky top-0 z-10  shadow-md bg-[url(https://images.pexels.com/photos/172276/pexels-photo-172276.jpeg?cs=srgb&dl=pexels-fwstudio-33348-172276.jpg&fm=jpg)] bg-no-repeat bg-center bg-cover">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10">
+          <div className="flex justify-start lg:w-0 lg:flex-1">
+            <Link href="/">
+              <Image
+                src="/img/InfernoBlazePizzaLogo.png"
+                alt="Inferno Blaze Pizza"
+                width={300}
+                height={300}
+                className="h-12 w-auto sm:h-32"
+              />
+            </Link>
+          </div>
+          <div className="-mr-2 -my-2 md:hidden">
+            <Button variant="ghost" onClick={() => setIsOpen(true)}>
+              <span className="sr-only">Open menu</span>
+              <FaBars className="h-6 w-6" aria-hidden="true" />
+            </Button>
+          </div>
+          <nav className="hidden md:flex space-x-10 items-center">
+            {menuItems.map((item, index) => (
               <div
-                className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-                id="navbar-cta"
+                key={item.name}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
               >
-                <ul className=" flex flex-col text-xl font-semibold p-4 md:p-0  border border-gray-100 md:space-x-16 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0   dark:border-gray-700 m-auto">
-                  <li className="">
-                    <div className="dropdown relative z-30">
+                {item.dropdownItems ? (
+                  <Popover open={openStates[index]}>
+                    <PopoverTrigger asChild>
                       <Link
                         href="/menu"
-                        className="text dropbtn font-lora"
-                        aria-current="page"
+                        className="text-lg font-medium py-2 px-3 font-lora text hover:border-none border-none"
                       >
-                        Menu
+                        {item.name}
                       </Link>
-                      <div className="dropdown-content mt-5 py-4 bg-red-hex z-30 relative">
-                        <Link
-                          href="/menu/appetizers"
-                          className=" px-4 py-3 bg-transition  min-w-32 "
-                        >
-                          Appetizers
-                        </Link>
-                        <Link
-                          href="/menu/wings"
-                          className=" px-4 py-3 bg-transition   min-w-32"
-                        >
-                          Wings
-                        </Link>
-                        <Link
-                          href="/menu/salads"
-                          className=" px-4 py-3 bg-transition   min-w-32"
-                        >
-                          Salads
-                        </Link>
-                        <Link
-                          href="/menu/pizza"
-                          className=" px-4 py-3 bg-transition   min-w-32"
-                        >
-                          Pizza
-                        </Link>
-                        <Link
-                          href="/menu/pastas"
-                          className=" px-4 py-3 bg-transition   min-w-32"
-                        >
-                          Pastas
-                        </Link>
-                        <Link
-                          href="/menu/sandwiches"
-                          className=" px-4 py-3 bg-transition   min-w-32"
-                        >
-                          Sandwiches
-                        </Link>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <a
-                      href="/ourStory"
-                      className="text block py-2 px-3 md:p-0 rounded  md:hover:bg-transparent font-lora "
-                    >
-                      Our Story
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/locations"
-                      className=" text block py-2 px-3 md:p-0  rounded  md:hover:bg-transparent  font-lora"
-                    >
-                      Locations
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/contactUs"
-                      className=" text block py-2 px-3 md:p-0 rounded  md:hover:bg-transparent font-lora"
-                    >
-                      Contact Us
-                    </a>
-                  </li>
-                </ul>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-48">
+                      <ul className="">
+                        {item.dropdownItems.map((subItem) => (
+                          <li key={subItem.name}>
+                            <Link
+                              href={subItem.href}
+                              className="text-lg font-semibold block py-2 px-4 bg-white hover:bg-black text-gray-700 hover:text-slate-100 transition-colors duration-500 rounded"
+                            >
+                              {subItem.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </PopoverContent>
+                  </Popover>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className="text text-lg font-medium block py-2 px-3 rounded  font-lora"
+                  >
+                    {item.name}
+                  </Link>
+                )}
               </div>
-            </div>
+            ))}
+          </nav>
+          <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+            <Link
+              href="/orderOnline"
+              className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700 transition-colors"
+            >
+              <FaShoppingCart className="mr-2" />
+              Order Online
+            </Link>
           </div>
-        </nav>
-        <div className="h-1 bg-black"></div>
+        </div>
       </div>
-    </>
+      <MobileMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
+    </header>
   );
 }

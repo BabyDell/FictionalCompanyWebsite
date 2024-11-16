@@ -1,65 +1,134 @@
-export default function contactUs() {
+"use client";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+
+export default function ContactUs() {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would typically send the form data to your server
+    console.log("Form submitted:", formData);
+    toast({
+      title: "Message Sent",
+      description: "We've received your message and will get back to you soon!",
+    });
+    setFormData({ name: "", email: "", message: "" });
+  };
+
   return (
     <div className="w-full bg-[url(https://cdn.pixabay.com/photo/2016/03/15/02/42/floor-1256804_1280.jpg)] h-dvh m-auto bg-cover">
       <div className="w-full xl:w-[1150px] bg-amber-50 h-dvh mx-auto">
-        <div className="relative menuImage bg-[url(/img/rosatiContactPagePizza.jpg)] h-[200px] md:h-[250px] lg:h-[300px] bg-cover ">
-          <div className="flex items-center justify-center h-full text-4xl text-white font-serif">
-            Have a Quesiton?
-          </div>
-        </div>
-        <div className="flex flex-col items-center justify-center py-10">
-          <div className="p-6 max-w-md w-full bg-white rounded-xl shadow-md flex items-center space-x-4">
-            <div className="flex-shrink-0">
-              <img
-                className="h-12 w-12"
-                src="https://icon-library.com/images/pizza-icon/pizza-icon-6.jpg"
-                alt="Pizza Icon"
-              />
-            </div>
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-4xl font-bold mb-8 text-center pt-5 font-serif text-red-900">Contact Us</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Send Us a Message</CardTitle>
+                <CardDescription>We'd love to hear from you!</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit}>
+                  <div className="grid w-full items-center gap-4">
+                    <div className="flex flex-col space-y-1.5">
+                      <Label htmlFor="name">Name</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        placeholder="Your name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="flex flex-col space-y-1.5">
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="Your email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="flex flex-col space-y-1.5">
+                      <Label htmlFor="message">Message</Label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        placeholder="Your message"
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                </form>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button type="submit" onClick={handleSubmit}>
+                  Send Message
+                </Button>
+              </CardFooter>
+            </Card>
             <div>
-              <div className="text-xl  text-red-950 font-semibold">
-                Inferno Blaze Pizza
-              </div>
-              <p>Headquarters:</p>
-              <p className="text-gray-500">
-                123 Pizza St, Pizza City, PC 12345
-              </p>
-              <p className="text-gray-500">Phone: 123-456-7890</p>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Contact Information</CardTitle>
+                  <CardDescription>Here's how you can reach us</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-2">
+                      <MapPin className="h-5 w-5 text-muted-foreground" />
+                      <span>123 Pizza Street, Yummy City, PC 12345</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Phone className="h-5 w-5 text-muted-foreground" />
+                      <span>(555) 123-4567</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-5 w-5 text-muted-foreground" />
+                      <span>info@infernoBlazePizza.com</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-5 w-5 text-muted-foreground" />
+                      <span>Mon-Sun: 11:00 AM - 10:00 PM</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-          </div>
-
-          <div className="flex flex-col w-full max-w-md mt-6 bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-            <form className="flex flex-col space-y-4">
-              <label>
-                Name:
-                <input
-                  type="text"
-                  name="name"
-                  className="ml-2 p-2 border border-gray-300 rounded-md"
-                />
-              </label>
-              <label>
-                Email:
-                <input
-                  type="email"
-                  name="email"
-                  className="ml-2 p-2 border border-gray-300 rounded-md"
-                />
-              </label>
-              <label>
-                Message:
-                <textarea
-                  name="message"
-                  className=" ml-2 p-2 border border-gray-300 rounded-md"
-                />
-              </label>
-              <input
-                type="submit"
-                value="Submit"
-                className="ml-2 p-2 bg-emerald-800 text-white rounded-md cursor-pointer hover:bg-emerald-900"
-              />
-            </form>
           </div>
         </div>
       </div>
