@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -235,87 +235,89 @@ export default function ModernPizzaMenu() {
   }, [searchParams]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-center pt-5 font-serif text-red-900">
-        Our Menu
-      </h1>
-      <Tabs
-        value={activeCategory}
-        onValueChange={setActiveCategory}
-        className="w-full"
-      >
-        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 mb-8">
+    <Suspense>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold mb-8 text-center pt-5 font-serif text-red-900">
+          Our Menu
+        </h1>
+        <Tabs
+          value={activeCategory}
+          onValueChange={setActiveCategory}
+          className="w-full"
+        >
+          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 mb-8">
+            {menuCategories.map((category) => (
+              <TabsTrigger
+                key={category.id}
+                value={category.id}
+                className="flex items-center gap-2"
+              >
+                {category.icon}
+                {category.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
           {menuCategories.map((category) => (
-            <TabsTrigger
-              key={category.id}
-              value={category.id}
-              className="flex items-center gap-2"
-            >
-              {category.icon}
-              {category.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        {menuCategories.map((category) => (
-          <TabsContent key={category.id} value={category.id}>
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">{category.label}</CardTitle>
-                <CardDescription>
-                  Explore our delicious {category.label.toLowerCase()}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-[60vh]">
-                  {menuItems[category.id as keyof MenuItems].map(
-                    (item, index) => (
-                      <div key={index}>
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <h3 className="font-semibold">{item.name}</h3>
-                            {item.description && (
-                              <p className="text-sm text-muted-foreground">
-                                {item.description}
-                              </p>
-                            )}
+            <TabsContent key={category.id} value={category.id}>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-2xl">{category.label}</CardTitle>
+                  <CardDescription>
+                    Explore our delicious {category.label.toLowerCase()}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ScrollArea className="h-[60vh]">
+                    {menuItems[category.id as keyof MenuItems].map(
+                      (item, index) => (
+                        <div key={index}>
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h3 className="font-semibold">{item.name}</h3>
+                              {item.description && (
+                                <p className="text-sm text-muted-foreground">
+                                  {item.description}
+                                </p>
+                              )}
+                            </div>
+                            <span className="font-semibold">
+                              {item.price !== null
+                                ? `$${item.price.toFixed(2)}`
+                                : ""}
+                            </span>
                           </div>
-                          <span className="font-semibold">
-                            {item.price !== null
-                              ? `$${item.price.toFixed(2)}`
-                              : ""}
-                          </span>
+                          {index <
+                            menuItems[category.id as keyof MenuItems].length -
+                              1 && <Separator className="my-4" />}
                         </div>
-                        {index <
-                          menuItems[category.id as keyof MenuItems].length -
-                            1 && <Separator className="my-4" />}
-                      </div>
-                    )
-                  )}
-                </ScrollArea>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        ))}
-      </Tabs>
-      {activeCategory === "wings" && (
-        <div className="mt-8 text-center text-sm text-muted-foreground">
-          **Served with a side of blue cheese or ranch
-        </div>
-      )}
-      {activeCategory === "salads" && (
-        <div className="mt-8 text-center">
-          <h3 className="font-semibold mb-2">Dressings:</h3>
-          <p className="text-sm text-muted-foreground">
-            ITALIAN | CAESAR | RANCH | FRENCH | BALSAMIC | BLUE CHEESE
-          </p>
-        </div>
-      )}
-      {activeCategory === "pastas" && (
-        <div className="mt-8 text-center text-sm text-muted-foreground">
-          <p>SERVED WITH GARLIC BREAD & GRATED CHEESE.</p>
-          <p>ADD 2 MEATBALLS, 1 CHICKEN BREAST OR 1 SAUSAGE LINK</p>
-        </div>
-      )}
-    </div>
+                      )
+                    )}
+                  </ScrollArea>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          ))}
+        </Tabs>
+        {activeCategory === "wings" && (
+          <div className="mt-8 text-center text-sm text-muted-foreground">
+            **Served with a side of blue cheese or ranch
+          </div>
+        )}
+        {activeCategory === "salads" && (
+          <div className="mt-8 text-center">
+            <h3 className="font-semibold mb-2">Dressings:</h3>
+            <p className="text-sm text-muted-foreground">
+              ITALIAN | CAESAR | RANCH | FRENCH | BALSAMIC | BLUE CHEESE
+            </p>
+          </div>
+        )}
+        {activeCategory === "pastas" && (
+          <div className="mt-8 text-center text-sm text-muted-foreground">
+            <p>SERVED WITH GARLIC BREAD & GRATED CHEESE.</p>
+            <p>ADD 2 MEATBALLS, 1 CHICKEN BREAST OR 1 SAUSAGE LINK</p>
+          </div>
+        )}
+      </div>
+    </Suspense>
   );
 }
