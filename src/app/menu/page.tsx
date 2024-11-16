@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -235,7 +235,6 @@ export default function ModernPizzaMenu() {
   }, [searchParams]);
 
   return (
-    <Suspense>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-8 text-center pt-5 font-serif text-red-900">
           Our Menu
@@ -318,6 +317,5 @@ export default function ModernPizzaMenu() {
           </div>
         )}
       </div>
-    </Suspense>
   );
 }
