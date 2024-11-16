@@ -53,7 +53,7 @@ export default function ContactUs() {
             <Card>
               <CardHeader>
                 <CardTitle>Send Us a Message</CardTitle>
-                <CardDescription>We'd love to hear from you!</CardDescription>
+                <CardDescription>We&apos;d love to hear from you!</CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit}>
@@ -105,7 +105,7 @@ export default function ContactUs() {
               <Card>
                 <CardHeader>
                   <CardTitle>Contact Information</CardTitle>
-                  <CardDescription>Here's how you can reach us</CardDescription>
+                  <CardDescription>Here&apos;s how you can reach us</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">

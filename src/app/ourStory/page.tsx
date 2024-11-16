@@ -91,7 +91,7 @@ export default function OurStory() {
             every bite. We strive to create not just meals, but memorable
             experiences that bring people together. Through our commitment to
             quality, innovation, and community, we aim to be more than just a
-            pizzeria – we want to be a cherished part of your life's special
+            pizzeria – we want to be a cherished part of your life&apos;s special
             moments.
           </p>
         </CardContent>
@@ -100,8 +100,8 @@ export default function OurStory() {
       <div className="text-center">
         <h2 className="text-3xl font-semibold mb-6">Join Us on Our Journey</h2>
         <p className="text-lg mb-6">
-          We're always looking for passionate individuals to join our team and
-          help us continue our story. If you love pizza as much as we do, we'd
+          We&apos;re always looking for passionate individuals to join our team and
+          help us continue our story. If you love pizza as much as we do, we&apos;d
           love to hear from you!
         </p>
         <Button size="lg">View Career Opportunities</Button>

@@ -236,7 +236,9 @@ export default function ModernPizzaMenu() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-center pt-5 font-serif text-red-900">Our Menu</h1>
+      <h1 className="text-4xl font-bold mb-8 text-center pt-5 font-serif text-red-900">
+        Our Menu
+      </h1>
       <Tabs
         value={activeCategory}
         onValueChange={setActiveCategory}
