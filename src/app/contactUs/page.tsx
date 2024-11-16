@@ -127,7 +127,7 @@ export default function ContactUs() {
                     </div>
                   </div>
                 </CardContent>
-              </Card>
+              </Card> 
             </div>
           </div>
         </div>
