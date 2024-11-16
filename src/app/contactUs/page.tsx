@@ -45,15 +45,19 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="w-full bg-[url(https://cdn.pixabay.com/photo/2016/03/15/02/42/floor-1256804_1280.jpg)] h-dvh m-auto bg-cover">
-      <div className="w-full xl:w-[1150px] bg-amber-50 h-dvh mx-auto">
+    <div className="h-auto min-h-dvh bg-[url('/img/rosatiBG.jpg')] bg-cover pb-16 ">
+      <div className="w-full xl:w-[1150px] mx-auto grid bg-amber-50 pb-10 rounded-lg ">
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-4xl font-bold mb-8 text-center pt-5 font-serif text-red-900">Contact Us</h1>
+          <h1 className="text-4xl font-bold mb-8 text-center pt-5 font-serif text-red-900">
+            Contact Us
+          </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
                 <CardTitle>Send Us a Message</CardTitle>
-                <CardDescription>We&apos;d love to hear from you!</CardDescription>
+                <CardDescription>
+                  We&apos;d love to hear from you!
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit}>
@@ -105,7 +109,9 @@ export default function ContactUs() {
               <Card>
                 <CardHeader>
                   <CardTitle>Contact Information</CardTitle>
-                  <CardDescription>Here&apos;s how you can reach us</CardDescription>
+                  <CardDescription>
+                    Here&apos;s how you can reach us
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -127,7 +133,7 @@ export default function ContactUs() {
                     </div>
                   </div>
                 </CardContent>
-              </Card> 
+              </Card>
             </div>
           </div>
         </div>
